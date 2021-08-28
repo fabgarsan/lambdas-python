@@ -30,7 +30,7 @@ class SingletonDB(object):
             cls.instance = super(SingletonDB, cls).__new__(cls)
         return cls.instance
 
-    def run_query(self, query):
+    def run_query(self, query, params=None):
         if not self.is_transaction:
             self.open_connection()
         try:
@@ -38,7 +38,7 @@ class SingletonDB(object):
                 self._cursor = self.conn.cursor()
             if 'SELECT' in query:
                 records = []
-                self._cursor.execute(query)
+                self._cursor.execute(query, params)
                 result = self._cursor.fetchall()
                 for row in result:
                     records.append(row)
@@ -46,7 +46,7 @@ class SingletonDB(object):
                     self.cursor.close()
                     self.cursor = None
                 return records
-            self.cursor.execute(query)
+            self.cursor.execute(query, params)
             return self.cursor.rowcount
         except psycopg2.Error as e:
             print('psycopg2.Error', e)
