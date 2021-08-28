@@ -1,0 +1,11 @@
+[run]
+include =
+    utils/*
+
+omit =
+    # coverage for local files only
+    */env/*
+    tests.py
+
+[html]
+directory = coverage_html_report

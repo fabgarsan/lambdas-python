@@ -1,0 +1,32 @@
+service: lambdas-python
+useDotenv: true
+
+frameworkVersion: '2'
+
+provider:
+  name: aws
+  runtime: python3.8
+  lambdaHashingVersion: 20201221
+  environment:
+    DB_USER: ${env:DB_USER}
+    DB_HOST: ${env:DB_HOST}
+    DB_DATABASE: ${env:DB_DATABASE}
+    DB_PASSWORD: ${env:DB_PASSWORD}
+    DB_PORT: ${env:DB_PORT}
+
+package:
+  patterns:
+    - '!node_modules/**'
+    - '!env/**'
+    - '!**package**'
+    - '!.coverage'
+    - '!.coveragerc'
+    - '!coverage_html_report/**'
+
+plugins:
+  - serverless-offline
+  - serverless-python-requirements
+
+custom:
+  pythonRequirements:
+    dockerizePip: non-linux
