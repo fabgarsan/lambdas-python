@@ -2,7 +2,7 @@ import random
 import unittest
 
 from utils.constants import (DNA_HUMAN, DNA_MUTANT_HORIZONTALLY, DNA_MUTANT_VERTICALLY, DNA_TYPE_HUMAN)
-from utils.functions import is_mutant, save_dna, get_dna, update_dna, create_mutant, get_stats
+from utils.functions import is_mutant, save_dna, get_dna, update_dna, create_mutant, get_stats, calculate_ratio
 from utils.db import db
 
 
@@ -106,3 +106,33 @@ class TestLambdaFunction(unittest.TestCase):
         self.assertEqual(ratio, count_mutant_dna / count_human_dna)
         db.rollback()
         db.close_connection()
+
+    def test_calculate_ratio(self):
+        count_human_dna = random.randint(100, 150)
+        count_mutant_dna = random.randint(25, 50)
+        result = calculate_ratio(count_mutant_dna=count_mutant_dna, count_human_dna=count_human_dna)
+        self.assertEqual(result, count_mutant_dna / count_human_dna)
+
+    def test_calculate_ratio_human_none(self):
+        count_mutant_dna = random.randint(25, 50)
+        result = calculate_ratio(count_mutant_dna=count_mutant_dna, count_human_dna=None)
+        self.assertEqual(result, 100)
+
+    def test_calculate_ratio_mutant_none(self):
+        count_human_dna = random.randint(25, 50)
+        result = calculate_ratio(count_mutant_dna=None, count_human_dna=count_human_dna)
+        self.assertEqual(result, 0)
+
+    def test_calculate_ratio_mutant_none_human_none(self):
+        result = calculate_ratio(count_mutant_dna=None, count_human_dna=None)
+        self.assertEqual(result, 0)
+
+    def test_calculate_ratio_human_zero(self):
+        count_mutant_dna = random.randint(25, 50)
+        result = calculate_ratio(count_mutant_dna=count_mutant_dna, count_human_dna=0)
+        self.assertEqual(result, 100)
+
+    def test_calculate_ratio_mutant_zero(self):
+        count_human_dna = random.randint(25, 50)
+        result = calculate_ratio(count_mutant_dna=0, count_human_dna=count_human_dna)
+        self.assertEqual(result, 0)
