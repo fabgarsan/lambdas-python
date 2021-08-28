@@ -1,8 +1,32 @@
 import random
 import unittest
 
-from utils.constants import (DNA_HUMAN, DNA_MUTANT_HORIZONTALLY, DNA_MUTANT_VERTICALLY, DNA_TYPE_HUMAN)
-from utils.functions import is_mutant, save_dna, get_dna, update_dna, create_mutant, get_stats, calculate_ratio
+from utils.constants import (
+    DNA_HUMAN,
+    DNA_MUTANT_HORIZONTALLY,
+    DNA_MUTANT_VERTICALLY,
+    DNA_TYPE_HUMAN,
+    DNA_WRONG_LETTERS,
+    DNA_WRONG_ARRAY_GROUP_SIZE,
+    RESPONSE_ERROR_DNA_LETTERS_WRONG,
+    RESPONSE_ERROR_DNA_SIZE_WRONG,
+    RESPONSE_ERROR_DNA_GROUPS_SIZE_WRONG
+)
+
+from utils.constants import DNA_WRONG_ARRAY_SIZE
+from utils.custom_exceptions import BadRequestException
+from utils.functions import (
+    is_mutant,
+    save_dna,
+    get_dna,
+    update_dna,
+    create_mutant,
+    get_stats,
+    calculate_ratio,
+    validate_is_valid_dna_letters,
+    validate_is_valid_dna_proper_array,
+    validate_is_valid_dna_proper_array_groups,
+)
 from utils.db import db
 
 
@@ -136,3 +160,35 @@ class TestLambdaFunction(unittest.TestCase):
         count_human_dna = random.randint(25, 50)
         result = calculate_ratio(count_mutant_dna=0, count_human_dna=count_human_dna)
         self.assertEqual(result, 0)
+
+    def test_validate_is_valid_dna_letters(self):
+        validate_is_valid_dna_letters(DNA_HUMAN)
+        validate_is_valid_dna_letters(DNA_MUTANT_HORIZONTALLY)
+        validate_is_valid_dna_letters(DNA_MUTANT_VERTICALLY)
+
+    def test_validate_is_valid_dna_letters_wrong_letters(self):
+        try:
+            validate_is_valid_dna_letters(DNA_WRONG_LETTERS)
+        except BadRequestException as error:
+            self.assertEqual(400, error.status_code)
+            self.assertEqual(RESPONSE_ERROR_DNA_LETTERS_WRONG, error.message)
+
+    def test_validate_is_valid_dna_proper_array(self):
+        validate_is_valid_dna_proper_array(DNA_MUTANT_VERTICALLY)
+
+    def test_validate_is_valid_dna_proper_array_wrong_size(self):
+        try:
+            validate_is_valid_dna_proper_array(DNA_WRONG_ARRAY_SIZE)
+        except BadRequestException as error:
+            self.assertEqual(400, error.status_code)
+            self.assertEqual(RESPONSE_ERROR_DNA_SIZE_WRONG, error.message)
+
+    def test_validate_is_valid_dna_proper_array_groups(self):
+        validate_is_valid_dna_proper_array_groups(DNA_MUTANT_VERTICALLY)
+
+    def test_validate_is_valid_dna_proper_array_groups_size(self):
+        try:
+            validate_is_valid_dna_proper_array_groups(DNA_WRONG_ARRAY_GROUP_SIZE)
+        except BadRequestException as error:
+            self.assertEqual(400, error.status_code)
+            self.assertEqual(RESPONSE_ERROR_DNA_GROUPS_SIZE_WRONG, error.message)
