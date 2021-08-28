@@ -34,6 +34,16 @@ functions:
           method: post
           cors: true
 
+  getStats:
+    handler: handlers/get_stats.handler
+    timeout: 60
+    memorySize: 128
+    events:
+      - http:
+          path: stats
+          method: get
+          cors: true
+
 plugins:
   - serverless-offline
   - serverless-python-requirements
