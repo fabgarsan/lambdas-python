@@ -1,11 +1,42 @@
+from utils.custom_exceptions import BadRequestException
 from utils.db import db
 from utils.queries import save_dna_query, get_dna_query, update_dna_query, stats_query
 import numpy as np
 
-from utils.constants import ALLOWED_LETTERS, DNA_TYPE_MUTANT, DNA_TYPE_HUMAN
+from utils.constants import (
+    ALLOWED_LETTERS,
+    DNA_TYPE_MUTANT,
+    DNA_TYPE_HUMAN,
+    RESPONSE_ERROR_DNA_LETTERS_WRONG,
+    RESPONSE_ERROR_DNA_GROUPS_SIZE_WRONG,
+    RESPONSE_ERROR_DNA_SIZE_WRONG
+)
+
+
+def validate_is_valid_dna_letters(raw_dna):
+    letter_in_sequence = set(''.join(raw_dna))
+    if not all(letter in ALLOWED_LETTERS for letter in letter_in_sequence):
+        raise BadRequestException(message=RESPONSE_ERROR_DNA_LETTERS_WRONG)
+
+
+def validate_is_valid_dna_proper_array(raw_dna):
+    if len(raw_dna) != 6:
+        raise BadRequestException(message=RESPONSE_ERROR_DNA_SIZE_WRONG)
+
+
+def validate_is_valid_dna_proper_array_groups(raw_dna):
+    if any(len(group) != 6 for group in raw_dna):
+        raise BadRequestException(message=RESPONSE_ERROR_DNA_GROUPS_SIZE_WRONG)
+
+
+def validate_is_valid_dna(raw_dna):
+    validate_is_valid_dna_letters(raw_dna)
+    validate_is_valid_dna_proper_array(raw_dna)
+    validate_is_valid_dna_proper_array_groups(raw_dna)
 
 
 def create_mutant(raw_dna) -> bool:
+    validate_is_valid_dna(raw_dna)
     dna_plain_string = ''.join(raw_dna)
     result = update_dna(dna_plain_string)
     if result > 0:
