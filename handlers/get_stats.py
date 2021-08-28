@@ -1,6 +1,6 @@
 import json
 
-from utils.functions import get_stats
+from utils.functions import get_stats, calculate_ratio
 
 
 def handler(event, context):
@@ -10,7 +10,7 @@ def handler(event, context):
         "body": json.dumps({
             "count_mutant_dna": count_mutant_dna,
             "count_human_dna": count_human_dna,
-            "ratio": count_mutant_dna / count_human_dna
+            "ratio": calculate_ratio(count_mutant_dna, count_human_dna)
         })
     }
     return response

@@ -22,19 +22,33 @@ def create_mutant(raw_dna) -> bool:
 
 
 def save_dna(dna, type):
-    return db.run_query(save_dna_query.format(dna=dna, type=type, count=1))
+    return db.run_query(save_dna_query, (dna, type, 1))
 
 
 def get_stats():
     return db.run_query(stats_query)
 
 
+def calculate_ratio(count_mutant_dna, count_human_dna):
+    try:
+        return count_mutant_dna / count_human_dna
+    except TypeError:
+        if count_human_dna is None and count_mutant_dna is None:
+            return 0
+        elif count_human_dna is None:
+            return 100
+        else:
+            return 0
+    except ZeroDivisionError:
+        return 100
+
+
 def get_dna(dna):
-    return db.run_query(get_dna_query.format(dna=dna))
+    return db.run_query(get_dna_query, (dna,))
 
 
 def update_dna(dna):
-    return db.run_query(update_dna_query.format(dna=dna))
+    return db.run_query(update_dna_query, (dna,))
 
 
 def is_mutant_horizontally(sequence: str) -> bool:
