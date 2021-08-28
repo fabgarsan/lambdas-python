@@ -7,6 +7,8 @@ provider:
   name: aws
   runtime: python3.8
   lambdaHashingVersion: 20201221
+  deploymentBucket:
+    name: lambda-services-python-dramor
   environment:
     DB_USER: ${env:DB_USER}
     DB_HOST: ${env:DB_HOST}
@@ -15,6 +17,8 @@ provider:
     DB_PORT: ${env:DB_PORT}
 
 package:
+  individually: true
+  excludeDevDependencies: true
   patterns:
     - '!node_modules/**'
     - '!env/**'
@@ -29,6 +33,8 @@ package:
 functions:
   createMutant:
     handler: handlers/create_mutant.handler
+    layers:
+      - { Ref: PythonRequirementsLambdaLayer }
     timeout: 60
     memorySize: 128
     events:
@@ -39,6 +45,8 @@ functions:
 
   getStats:
     handler: handlers/get_stats.handler
+    layers:
+      - { Ref: PythonRequirementsLambdaLayer }
     timeout: 60
     memorySize: 128
     events:
@@ -54,3 +62,9 @@ plugins:
 custom:
   pythonRequirements:
     dockerizePip: non-linux
+    layer:
+      name: ${self:provider.stage}-layerPython
+      description: Lambda Python requirements lambda layer
+      compatibleRuntimes:
+        - python3.8
+      licenseInfo: GPLv3
