@@ -23,6 +23,17 @@ package:
     - '!.coveragerc'
     - '!coverage_html_report/**'
 
+functions:
+  createMutant:
+    handler: handlers/create_mutant.handler
+    timeout: 60
+    memorySize: 128
+    events:
+      - http:
+          path: mutant
+          method: post
+          cors: true
+
 plugins:
   - serverless-offline
   - serverless-python-requirements
