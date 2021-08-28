@@ -18,10 +18,13 @@ package:
   patterns:
     - '!node_modules/**'
     - '!env/**'
+    - '!.pytest_cache'
     - '!**package**'
     - '!.coverage'
+    - '!.gitignore'
     - '!.coveragerc'
     - '!coverage_html_report/**'
+    - '!tests.py'
 
 functions:
   createMutant:
