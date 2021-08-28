@@ -5,6 +5,7 @@
   "main": "handler.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "install:all": "pip install -r requirements.txt && npm install",
     "offline": "sls offline"
   },
   "author": "",
