@@ -82,8 +82,25 @@ def update_dna(dna):
     return db.run_query(update_dna_query, (dna,))
 
 
-def is_mutant_horizontally(sequence: str) -> bool:
+def is_mutant_horizontally(sequence) -> bool:
     return any(np.sum(sequence == char) > 3 for char in ALLOWED_LETTERS)
+
+
+def check_diagonals(sequence):
+    sequence_length = len(sequence)
+    diagonals = [sequence.diagonal(x) for x in range(-sequence_length, sequence_length)]
+    for element in diagonals:
+        if len(element) > 3:
+            joined_letters = "".join(element)
+            if any(joined_letters.count(char) > 3 for char in ALLOWED_LETTERS):
+                return True
+
+
+def is_mutant_diagonal(sequence) -> bool:
+    mutant_founded = check_diagonals(sequence)
+    if not mutant_founded:
+        mutant_founded = check_diagonals(np.flipud(sequence))
+    return mutant_founded
 
 
 def is_mutant(dna) -> bool:
@@ -95,4 +112,6 @@ def is_mutant(dna) -> bool:
     for element in dna_transposed:
         if is_mutant_horizontally(element):
             return True
+    if is_mutant_diagonal(dna):
+        return True
     return False
