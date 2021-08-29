@@ -22,12 +22,12 @@ DNA_WRONG_ARRAY_GROUP_SIZE = [
     "TATGCB"
 ]
 DNA_HUMAN = [
-    "ATGCAT",
-    "TGCATA",
-    "GCATAT",
-    "CATATG",
-    "ATATGC",
-    "TATGCA"
+    "ATGCAA",
+    "TGCTGA",
+    "CAAACT",
+    "ATGCAG",
+    "TGCTGA",
+    "CATGCT"
 ]
 
 DNA_MUTANT_VERTICALLY = [
@@ -46,6 +46,24 @@ DNA_MUTANT_HORIZONTALLY = [
     "GTATAC",
     "TATACG",
     "ATACGT"
+]
+
+DNA_MUTANT_DIAGONAL = [
+    "ATGCAA",
+    "TACTGA",
+    "CAAACT",
+    "ATGCAG",
+    "TGCTAA",
+    "CATGCT"
+]
+
+DNA_MUTANT_DIAGONAL_FLIPPED = [
+    "CATGCT",
+    "TGCTAA",
+    "ATGCAG",
+    "CAAACT",
+    "TACTGA",
+    "ATGCAA"
 ]
 
 DNA_TYPE_HUMAN = 'H'

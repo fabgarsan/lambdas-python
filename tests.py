@@ -5,6 +5,8 @@ from utils.constants import (
     DNA_HUMAN,
     DNA_MUTANT_HORIZONTALLY,
     DNA_MUTANT_VERTICALLY,
+    DNA_MUTANT_DIAGONAL,
+    DNA_MUTANT_DIAGONAL_FLIPPED,
     DNA_TYPE_HUMAN,
     DNA_WRONG_LETTERS,
     DNA_WRONG_ARRAY_GROUP_SIZE,
@@ -41,6 +43,12 @@ class TestLambdaFunction(unittest.TestCase):
 
     def test_is_mutant_horizontally(self):
         result = is_mutant(DNA_MUTANT_HORIZONTALLY)
+        self.assertTrue(result)
+
+    def test_is_mutant_diagonals(self):
+        result = is_mutant(DNA_MUTANT_DIAGONAL)
+        self.assertTrue(result)
+        result = is_mutant(DNA_MUTANT_DIAGONAL_FLIPPED)
         self.assertTrue(result)
 
     def test_update_existing_dna(self):
