@@ -1,10 +1,17 @@
 <h1 align="center">Welcome to Magneto Hiring 👋</h1>
 <p>
   <img alt="Version" src="https://img.shields.io/badge/version-1.0.0-blue.svg?cacheSeconds=2592000" />
-  <img alt="Coverage" src="https://img.shields.io/badge/coverage-89%25-gren.svg?cacheSeconds=2592000" />
+  <img alt="Coverage" src="https://img.shields.io/badge/coverage-90%25-gren.svg?cacheSeconds=2592000" />
 </p>
 
 > Magneto's platform for recruiting mutants to fight the X-Men based on DNA. Using **lambda** powers to get the power!
+
+## Stack
+
+### Build with
+
+* Python
+* AWS Lambdas Serverless
 
 ## Demo Endpoint
 
@@ -20,10 +27,44 @@ This is a **POST** method
 
 {
   "dna": [
+    "ATGCAA",
+    "TGCTGA",
+    "CAAACT",
+    "ATGCAG",
+    "TGCTGA",
+    "CATGCT"
+  ]
+}
+
+```
+
+##### Mutant DNA HORIZONTAL
+
+```json
+
+{
+  "dna": [
+    "TTTGTA",
+    "ACGTAT",
+    "CGTATA",
+    "GTATAC",
+    "TATACG",
+    "ATACGT"
+  ]
+}
+
+```
+
+##### Mutant DNA VERTICAL
+
+```json
+
+{
+  "dna": [
     "ATGCAT",
-    "TGCATA",
+    "TGCATT",
     "GCATAT",
-    "CATATG",
+    "CATATT",
     "ATATGC",
     "TATGCA"
   ]
@@ -31,18 +72,18 @@ This is a **POST** method
 
 ```
 
-##### Mutant DNA
+##### Mutant DNA DIAGONALS
 
 ```json
 
 {
   "dna": [
-    "ATGCGA",
-    "CAGTGC",
-    "TTATGT",
-    "AGAAGG",
-    "CCCCTA",
-    "TCACTG"
+    "ATGCAA",
+    "TACTGA",
+    "CAAACT",
+    "ATGCAG",
+    "TGCTAA",
+    "CATGCT"
   ]
 }
 
